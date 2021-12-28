@@ -779,8 +779,10 @@ echo "OK"
         return
     def create_jupyter_subprocess(self, cmd,cwd=None,shell=False,env=None,magics=None,outencode=None):
         try:
-            if env==None or len(env)<1:
-                env=os.environ
+            if env==None or len(env)<1:env=os.environ
+            newcwd=self.get_magicsSvalue(magics,'cwd')
+            if len(newcwd)>1:cwd=newcwd.strip()
+            if cwd==None:cwd=os.path.abspath('')
             if magics!=None and magics['status']=='' and len(self.addmagicsBkey(magics,'runinterm'))>0:
                 self.inittermcmd(magics)
                 if len(magics['_st']['term'])<1:
